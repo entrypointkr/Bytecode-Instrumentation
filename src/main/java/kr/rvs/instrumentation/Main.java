@@ -15,14 +15,16 @@ import java.util.jar.Manifest;
  * Created by Junhyeong Lim on 2017-02-02.
  */
 public class Main {
-    public static void main(String[] args) throws Exception {
-        Target target = new Target();
-        target.a();
-        String jvm = ManagementFactory.getRuntimeMXBean().getName();
-        String pid = jvm.substring(0, jvm.indexOf('@'));
-        VirtualMachine vm = VirtualMachine.attach(pid);
-        vm.loadAgent(generateJar(Agent.class, Utils.class, TargetTransformer.class, TargetClassVisitor.class, TargetMethodVisitor.class).getAbsolutePath());
-        target.a();
+    public static void main(String[] args) {
+        try {
+            String jvm = ManagementFactory.getRuntimeMXBean().getName();
+            String pid = jvm.substring(0, jvm.indexOf('@'));
+            VirtualMachine vm = VirtualMachine.attach(pid);
+            vm.loadAgent(generateJar(Agent.class, Utils.class, TransformTransformer.class, TransformClassVisitor.class, TransformMethodVisitor.class).getAbsolutePath());
+            throw new Exception();
+        } catch (Exception ex) {
+            // Ignore
+        }
     }
 
     public static File generateJar(Class agent, Class... resources) throws IOException {

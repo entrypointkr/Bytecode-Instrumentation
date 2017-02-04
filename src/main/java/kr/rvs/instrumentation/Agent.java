@@ -10,9 +10,9 @@ import java.lang.instrument.Instrumentation;
  */
 public class Agent {
     public static void agentmain(String agentArg, Instrumentation inst) throws Exception {
-        inst.addTransformer(new TargetTransformer());
+        inst.addTransformer(new TransformTransformer());
 
-        InputStream inStream = ClassLoader.getSystemResourceAsStream("kr/rvs/instrumentation/Target.class");
+        InputStream inStream = ClassLoader.getSystemResourceAsStream("java/lang/Exception.class");
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         int read;
         byte[] data = new byte[65536];
@@ -20,6 +20,6 @@ public class Agent {
             outStream.write(data, 0, read);
         }
 
-        inst.redefineClasses(new ClassDefinition(Target.class, outStream.toByteArray()));
+        inst.redefineClasses(new ClassDefinition(Exception.class, outStream.toByteArray()));
     }
 }
