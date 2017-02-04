@@ -20,7 +20,7 @@ public class Main {
             String jvm = ManagementFactory.getRuntimeMXBean().getName();
             String pid = jvm.substring(0, jvm.indexOf('@'));
             VirtualMachine vm = VirtualMachine.attach(pid);
-            vm.loadAgent(generateJar(Agent.class, Utils.class, TransformTransformer.class, TransformClassVisitor.class, TransformMethodVisitor.class).getAbsolutePath());
+            vm.loadAgent(generateJar(Agent.class, Utils.class, ClassTransformer.class, TransformClassVisitor.class, TransformMethodVisitor.class).getAbsolutePath());
             throw new Exception();
         } catch (Exception ex) {
             // Ignore

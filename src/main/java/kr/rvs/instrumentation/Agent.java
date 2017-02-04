@@ -10,7 +10,7 @@ import java.lang.instrument.Instrumentation;
  */
 public class Agent {
     public static void agentmain(String agentArg, Instrumentation inst) throws Exception {
-        inst.addTransformer(new TransformTransformer());
+        inst.addTransformer(new ClassTransformer());
 
         InputStream inStream = ClassLoader.getSystemResourceAsStream("java/lang/Exception.class");
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
